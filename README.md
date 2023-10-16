@@ -1,66 +1,65 @@
-# Amazon Reviews Rating Prediction
+# Prédiction d'évaluation des critiques sur Amazon
 
-Override stars by attributing a score to a review using NLP.
+Remplacez les étoiles en attribuant une note à un commentaire à l'aide de la NLP.
 
 ## Introduction
-Sometimes, a customer's review can be unclear, a comment may not reflect the rating (ex. five-stars method). 
-This phenomenon can be explained by various reasons such as the fact that this scoring method depends of the client personnality (is a 3/5 score a good score or not ?). 
-To override these rating methods, we work on a way to attribute a score based directly on the analysis of a comment. 
-This project is based on sentiment analysis using NLP.
+Il arrive que l'avis d'un client ne soit pas clair, qu'un commentaire ne reflète pas l'évaluation (ex. méthode des cinq étoiles). 
+Ce phénomène peut s'expliquer par différentes raisons comme le fait que cette méthode de notation dépend de la personnalité du client (une note de 3/5 est-elle une bonne note ou non ?). 
+Pour pallier à ces méthodes de notation, nous travaillons sur un moyen d'attribuer une note basée directement sur l'analyse d'un commentaire. 
+Ce projet est basé sur l'analyse des sentiments à l'aide du NLP.
 
-## Dataset
-For this project, we use a Amazon Review Dataset (see [jmcauley.ucsd.edu](https://jmcauley.ucsd.edu/data/amazon/)). 
-Those reviews are associated to a 5-star rating system.
-The original dataset contains 142.8 million reviews, it was divided by categories.
-In this project, we are using a small fraction of the original dataset. Specifically, we are using the following file containing 231 780 observations (no duplicates).
+## Jeu de données
+Pour ce projet, nous utilisons un ensemble de données de critiques Amazon (voir [jmcauley.ucsd.edu](https://jmcauley.ucsd.edu/data/amazon/)). 
+Ces critiques sont associées à un système d'évaluation à 5 étoiles.
+L'ensemble de données original contient 142,8 millions d'avis et a été divisé par catégories. Les commentaires analysés sont en anglais.
+Dans ce projet, nous utilisons une petite partie de l'ensemble de données original. Plus précisément, nous utilisons le fichier suivant qui contient 231 780 observations (sans doublons).
+
 
 * `amazon_reviews_us_Video_Games.tsv`
 
-## Model
+## Modèle
 
-### Step 1 : Data cleaning
+### Etape 1 : Data cleaning
 
-The collected data may contain some noises which can lead our model to be less efficient. Here we want to erase some useless characters in the reviews.
-For example, we don't need URL, numbers or special characters. So the use a function to get rid of that. Further, we don't want contractions (such as "won't" : "will not").
-We correct contractions to reinforce our training model.
+Les données collectées peuvent contenir des bruits qui peuvent rendre notre modèle moins efficace. Ici, nous voulons effacer certains caractères inutiles dans les commentaires.
+Par exemple, nous n'avons pas besoin d'URL, de chiffres ou de caractères spéciaux. Nous utilisons donc une fonction pour nous en débarrasser. De plus, nous ne voulons pas de contractions (telles que "won't" : "will not").
+Nous corrigeons les contractions pour renforcer notre modèle de formation.
 
-### Step 2 : Text encoding
+### Etape 2 : Encodage du text
 
-Text encoding consists in tokenizing textual inputs to transform text to numerical data.
+L'encodage de texte consiste en la tokenisation des entrées textuelles afin de transformer le texte en données numériques.
 
-We use the pretrained encoding model 'all-MiniLM-L6-v2' from [Transformers](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). This sentence transformer aims to 
-map sentences & paragraphs to a 384 dimensional dense vector space. 
+Nous utilisons le modèle d'encodage pré-entraîné "all-MiniLM-L6-v2" de [Transformers] (https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). Ce transformateur de phrases vise à cartographier les phrases et les paragraphes dans un espace vectoriel dense de 384 dimensions. 
 
-Transformers automate word tokenization. It consists to divide strings into lists of substrings 
-(e.g. "The cat is at the window" : ["The", "cat", "is", "at", "the", "window"].
+Les transformateurs automatisent la tokenisation des mots. Il consiste à diviser les chaînes de caractères en listes de sous-chaînes.
+Par exemple "The cat is at the window" : ["The", "cat", "is", "at", "the", "window"].
 
-### Step 3 : ML Model
+### Etape 3 : Modèle Machine Learning
 
-SVM model is used for classification. We implement this model with an accuracy score of ~80%. 
-SVM classifier from [scikit learn](https://scikit-learn.org/stable/modules/svm.html) is effective in high dimensional
-spaces. We use the five-fold cross-validation argument to provide probabilities on class belonging.
+Le modèle SVM est utilisé pour la classification. Nous implémentons ce modèle avec une précision de ~80%. 
+Le classificateur SVM de [scikit learn] (https://scikit-learn.org/stable/modules/svm.html) est efficace dans les espaces à haute dimensionnels. Nous utilisons l'argument de la validation croisée quintuple pour fournir des probabilités sur l'appartenance à une classe.
 
 
 ## Structure
 
 Each files on this repository correspond to a step. 
-The folder `tools` contains the following files : 
-- `cleaning` - preprocess function to clean data. 
-- `encoding` - encoding text data to numeric data with Transformers.
-- `var_selection` - apply a variables selection algorithm.
+Le fichier `tools` contient les fichiers suivants : 
+- `cleaning` - la fonction de nettoyage des comentaires. 
+- `encoding` - encodage des données en numérique avec Transformers.
+- `var_selection` - applique une selection des variables.
 
-The folder `classification` contains the following files :
-- `model` - train a classifier and evaluate it. 
-- `predict` - prediction function. 
+The folder `classification` contient les fichiers suivants :
+- `model` - entraine un classifieur et l'evalue. 
+- `predict` - la fonction de prédiction. 
 
-The folder `deployment` contains the following file :
-- `application.xlsm` - the file containing our application, please click the launch button.
-- `output_model.xls` - file needed to stock model results, do not need to be open in your machine.
-- `scoring_model.pkl` - pickle file containing the scoring model.
-- `select_vaiable.pkl` - pickle file containing the selection of variables needed.
-Read help.txt for more informations.
+The folder `deployment` ontient les fichiers suivants :
+- `application.xlsm` - le fichier contient notre application. Merci d'appuyer sur le bouton launch.
+- `output_model.xls` - le fichier enregistre le resultat du modèl, il n'est pas necessaire de l'ouvrir dans notre machine.
+- `scoring_model.pkl` - le fichier pickle contient le modèle de scoring.
+- `select_vaiable.pkl` - le fichier pickle contient la selection des variables dont nous avons besoin.
+Lire help.txt pour plus d'informations.
 
-The folder `test` contains the following file :
-- `test_` - test functions. 
+Le fichier `test` contient les fichiers suivants :
+- `test_` - le fichier qui test les fonctions. 
 
-# Before to run application, please make sure you use the correct path for Excel and Python files. 
+# Avant d'excuter l'application, merci d'etre sûre d'avoir renseigné les bon chemins de tes fichiers excel et python. 
