@@ -1,6 +1,6 @@
 # Prédiction d'évaluation des critiques sur Amazon
 
-Remplacez les étoiles en attribuant une note à un commentaire à l'aide de la NLP.
+Analysez des sentiments en attribuant une note à un commentaire à l'aide de la NLP (Natural Langage Processing).
 
 ## Introduction
 Il arrive que l'avis d'un client ne soit pas clair, qu'un commentaire ne reflète pas l'évaluation (ex. méthode des cinq étoiles). 
